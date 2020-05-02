@@ -1,5 +1,4 @@
 /**
- * Copyright (c) 2012, Dhilshuk Reddy All rights reserved.
  * 
  * Permission to use, copy, modify, and distribute SwingJD software is freely
  * granted, provided that this notice is preserved.

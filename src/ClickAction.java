@@ -1,6 +1,4 @@
 /**
- * Copyright 2015 Peter "Felix" Nguyen & Emmanuel Medina Lopez
- * 
  * Forest Fire Simulation with 2D Graphics.
  * 
  * ClickAction is an object used to store information on clicks for the purpose
