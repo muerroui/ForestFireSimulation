@@ -1,3 +1,4 @@
+package utils;
 /**
  * Forest Fire Simulation with 2D Graphics.
  * 

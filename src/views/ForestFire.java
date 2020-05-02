@@ -1,3 +1,4 @@
+package views;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.
@@ -64,13 +65,25 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
-import com.jd.swing.custom.component.button.ButtonType;
-import com.jd.swing.custom.component.button.StandardButton;
-import com.jd.swing.util.Theme;
+import component.StandardButton;
+import constant.ButtonType;
+import constant.ConstantColor;
+import constant.ConstantMapResolution;
+import constant.ConstantPercentageTrees;
+import constant.Theme;
+import model.Rain;
+import model.Tree;
+import model.WeatherObject;
+import model.Wind;
+import utils.ClickAction;
+import utils.TreeComparator;
+import utils.TreeGrouper;
+import utils.TreeXComparator;
+import utils.TreeYComparator;
 
 @SuppressWarnings("serial")
 public class ForestFire extends JPanel {
-	protected static JScrollPane jspForestFire;
+	public static JScrollPane jspForestFire;
 	private GameStats gameStats = new GameStats();
 	private JPanel mapPanel = new JPanel();
 
@@ -92,35 +105,6 @@ public class ForestFire extends JPanel {
         renderFireCursorBlack(); // no if statement required
 	}
 	
-	// Constants to specify map resolution
-	public final static String RESOLUTION_WVGA = "800x480";
-	public final static String RESOLUTION_WSVGA = "1024x600";
-	public final static String RESOLUTION_720P = "1280x720";
-	public final static String RESOLUTION_SXGA = "1280x1024";
-	public final static String RESOLUTION_HDPLUS = "1600x900";
-	public final static String RESOLUTION_UXGA = "1600x1200";
-	public final static String RESOLUTION_FHD = "1920x1080";
-	public final static String RESOLUTION_WQXGA = "2560x1600";
-	
-	public final static String RESOLUTION_DEVICE = "DEVICE";
-	public final static int WIDTH_DEFAULT = 1200;
-	public final static int HEIGHT_DEFAULT = 600;
-	public final static int WIDTH_TEST = 1200;
-	public final static int HEIGHT_TEST = 600;
-	public final static int MIN_WIDTH = 100;
-	public final static int MIN_HEIGHT = 100;
-
-	// Constants to specify percentage of trees
-	public static final double  POPULATION_XXXLARGE = 0.003290625;
-	public static final double   POPULATION_XXLARGE = 0.00219375;
-	public static final double    POPULATION_XLARGE = 0.0014625;
-	public static final double     POPULATION_LARGE = 0.000975;
-	public static final double    POPULATION_MEDIUM = 0.00065;
-	public static final double     POPULATION_SMALL = 0.00060;
-	public static final double    POPULATION_XSMALL = 0.00050;
-	public static final double   POPULATION_XXSMALL = 0.00040;
-	public static final double  POPULATION_XXXSMALL = 0.00030;
-	
 	// Map settings
 	private static double selectedPopulation;
 	@SuppressWarnings("unused")
@@ -134,8 +118,8 @@ public class ForestFire extends JPanel {
 	private static String resolution = "";
 	public static int screenWidth;
 	public static int screenHeight;
-	public static int mapWidth = WIDTH_DEFAULT;
-	public static int mapHeight = HEIGHT_DEFAULT;
+	public static int mapWidth = ConstantMapResolution.WIDTH_DEFAULT;
+	public static int mapHeight = ConstantMapResolution.HEIGHT_DEFAULT;
 	
 	// Adjust height for MenuBar, ButtonBar, and ReplaySlider, 
 	public static int heightOfOtherComponents = 112;
@@ -282,7 +266,12 @@ public class ForestFire extends JPanel {
 	private int xClick;
 	private int yClick;
 	
+	
 	public ForestFire() {
+		initUI();
+	}
+	
+	public void initUI() {
 		// Get device resolution
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		screenWidth = gd.getDisplayMode().getWidth();
@@ -290,7 +279,7 @@ public class ForestFire extends JPanel {
 		System.out.println("Device resolution = " + screenWidth + "x" + screenHeight);
 		
 		// Select resolution name
-		resolution = RESOLUTION_DEVICE;
+		resolution = ConstantMapResolution.RESOLUTION_DEVICE;
 
 		jspForestFire = new JScrollPane(mapPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		jspForestFire.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE); // disable repaint
@@ -305,7 +294,7 @@ public class ForestFire extends JPanel {
 		setMapSize(2560, 1600); // test
 		
 		// maxTrees = x-percentage of total pixels
-		selectedPopulation = POPULATION_MEDIUM;
+		selectedPopulation = ConstantPercentageTrees.POPULATION_MEDIUM;
 		setMaxTrees(selectedPopulation);
 		
 		// Create array of trees and sort them
@@ -672,7 +661,7 @@ public class ForestFire extends JPanel {
 			}
 		});
 
-		mapPanel.setBackground(LookAndFeel.COLOR_SOLID_BLACK);
+		mapPanel.setBackground(ConstantColor.COLOR_SOLID_BLACK);
 		mapPanel.add(ForestFire.this, new GridBagConstraints());
 		
 		// Timer for simulation
@@ -942,7 +931,7 @@ public class ForestFire extends JPanel {
 		
 		// Continue subcomponents
 		upperPanel.add(mapButtons = new MapButtons());
-		upperPanel.setBackground(LookAndFeel.COLOR_SOLID_PANELS);
+		upperPanel.setBackground(ConstantColor.COLOR_SOLID_PANELS);
 		upperPanel.setSize(new Dimension(mapWidth, 70));
 		upperPanel.setMinimumSize(new Dimension(mapWidth, 70));
 		upperPanel.setMaximumSize(new Dimension(mapWidth, 70));		
@@ -1152,7 +1141,7 @@ public class ForestFire extends JPanel {
 			g2d.setStroke(new BasicStroke(0.40f));
 
 			// Draw circular leaves
-			g2d.setColor(LookAndFeel.COLOR_SOLID_TREE_LEAVES);
+			g2d.setColor(ConstantColor.COLOR_SOLID_TREE_LEAVES);
 			g2d.fillOval(0, 0, TREE_DIAMETER, TREE_DIAMETER);
 			g2d.setColor(Color.BLACK);
 			g2d.drawOval(0, 0, TREE_DIAMETER, TREE_DIAMETER);
@@ -1228,7 +1217,7 @@ public class ForestFire extends JPanel {
 			int n = 3;
 			
 			// Render polygon
-			g2d.setColor(LookAndFeel.COLOR_SOLID_TREE_LEAVES);
+			g2d.setColor(ConstantColor.COLOR_SOLID_TREE_LEAVES);
 			Polygon p = new Polygon(triX, triY, n);
 			g2d.fillPolygon(p);
 			g2d.setColor(Color.BLACK);
@@ -1321,18 +1310,18 @@ public class ForestFire extends JPanel {
 			// Fill mouse cursor
 			if (leftClickAction == LEFT_ACTION_FIRE) {
 				string = "Fire";
-				g2d.setColor(LookAndFeel.COLOR_TRANSLUCENT_LENS_FIRE);
+				g2d.setColor(ConstantColor.COLOR_TRANSLUCENT_LENS_FIRE);
 			} else if (leftClickAction == LEFT_ACTION_RAIN) {
 				string = "Rain";
-				g2d.setColor(LookAndFeel.COLOR_TRANSLUCENT_LENS_RAIN);
+				g2d.setColor(ConstantColor.COLOR_TRANSLUCENT_LENS_RAIN);
 			} else if (leftClickAction == LEFT_ACTION_WIND) { 
 				string = "Wind";
-				g2d.setColor(LookAndFeel.COLOR_TRANSLUCENT_LENS_WIND);
+				g2d.setColor(ConstantColor.COLOR_TRANSLUCENT_LENS_WIND);
 			}
 			g2d.fillOval(2, 2, clickRadius * 2 - 1, clickRadius * 2 - 1);
 			
 			// Draw center dot
-			g2d.setColor(LookAndFeel.COLOR_SOLID_BLACK);
+			g2d.setColor(ConstantColor.COLOR_SOLID_BLACK);
 			g2d.fillOval(clickRadius - 1, clickRadius - 1, 5, 5);
 			
 			// Name of cursor
@@ -1433,7 +1422,7 @@ public class ForestFire extends JPanel {
 		}
 			
 		if (paused) {
-			g.setColor(LookAndFeel.COLOR_SOLID_DARK_TEXT);
+			g.setColor(ConstantColor.COLOR_SOLID_DARK_TEXT);
 			g.setFont(new Font(g.getFont().getFontName(), Font.BOLD, 50));
 			
 			String string = "PAUSED";
@@ -1449,7 +1438,7 @@ public class ForestFire extends JPanel {
 			g.drawString(string, offsetX, offsetY);
 
 			if (!dialogOpen) {
-				g.setColor(LookAndFeel.COLOR_TRANSLUCENT_BLACK);
+				g.setColor(ConstantColor.COLOR_TRANSLUCENT_BLACK);
 				g.fillRect(0, 0, mapWidth, mapHeight);
 			}
 		}
@@ -1475,7 +1464,7 @@ public class ForestFire extends JPanel {
 				g.drawOval(xPosition - radius, yPosition - radius, radius * 2, radius * 2);
 				
 				// Draw direction line
-				g.setColor(LookAndFeel.COLOR_SOLID_BLACK);
+				g.setColor(ConstantColor.COLOR_SOLID_BLACK);
 				g.drawLine(xPosition, yPosition, xDestination, yDestination);
 		
 				// Draw final destination (large dot)
@@ -1564,31 +1553,31 @@ public class ForestFire extends JPanel {
 			ForestFire.selectedPopulation = POPULATION_ULTRALARGE;
 			break;
 		case 1:
-			ForestFire.selectedPopulation = POPULATION_XXXLARGE;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_XXXLARGE;
 			break;
 		case 2:
-			ForestFire.selectedPopulation = POPULATION_XXLARGE;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_XXLARGE;
 			break;
 		case 3:
-			ForestFire.selectedPopulation = POPULATION_XLARGE;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_XLARGE;
 			break;
 		case 4:
-			ForestFire.selectedPopulation = POPULATION_LARGE;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_LARGE;
 			break;
 		case 5:
-			ForestFire.selectedPopulation = POPULATION_MEDIUM;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_MEDIUM;
 			break;
 		case 6:
-			ForestFire.selectedPopulation = POPULATION_SMALL;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_SMALL;
 			break;
 		case 7:
-			ForestFire.selectedPopulation = POPULATION_XSMALL;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_XSMALL;
 			break;
 		case 8:
-			ForestFire.selectedPopulation = POPULATION_XXSMALL;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_XXSMALL;
 			break;
 		case 9:
-			ForestFire.selectedPopulation = POPULATION_XXXSMALL;
+			ForestFire.selectedPopulation = ConstantPercentageTrees.POPULATION_XXXSMALL;
 			break;
 		case 10:
 			ForestFire.selectedPopulation = POPULATION_ULTRASMALL;
@@ -1644,11 +1633,11 @@ public class ForestFire extends JPanel {
 	
 	public void setMapSize(int mapWidth, int mapHeight) {
 		// prevent width and height from being negative
-		if (mapWidth < MIN_WIDTH) {
-			mapWidth = MIN_WIDTH;
+		if (mapWidth < ConstantMapResolution.MIN_WIDTH) {
+			mapWidth = ConstantMapResolution.MIN_WIDTH;
 		}
-		if (mapHeight < MIN_HEIGHT) {
-			mapHeight = MIN_HEIGHT;
+		if (mapHeight < ConstantMapResolution.MIN_HEIGHT) {
+			mapHeight = ConstantMapResolution.MIN_HEIGHT;
 		}
 
 		ForestFire.mapWidth = mapWidth;
@@ -1668,7 +1657,7 @@ public class ForestFire extends JPanel {
 		setMaximumSize(mapDimension);
 	}
 	
-	class MapButtons extends JPanel {
+	public class MapButtons extends JPanel {
 		
 		private MapButtons() {
 			sbPlay.setEnabled(false);
@@ -1880,7 +1869,7 @@ public class ForestFire extends JPanel {
 		return mapButtons;
 	}
 	
-	class EditButtons extends JPanel {
+	public class EditButtons extends JPanel {
 		private JComboBox<String> jcbFill = new JComboBox<String>();
 		private StandardButton sbPen = new StandardButton("Pen", ButtonType.BUTTON_ROUNDED_RECTANGLUR, Theme.STANDARD_BLUEGREEN_THEME, Theme.STANDARD_PALEBROWN_THEME, Theme.STANDARD_BLACK_THEME);
 		private StandardButton sbBrush = new StandardButton("Brush", ButtonType.BUTTON_ROUNDED_RECTANGLUR, Theme.STANDARD_BLUEGREEN_THEME, Theme.STANDARD_PALEBROWN_THEME, Theme.STANDARD_BLACK_THEME);
@@ -2216,8 +2205,8 @@ public class ForestFire extends JPanel {
 			
 			setSize(panel.getPreferredSize());
 			setAlwaysOnTop(false);
-			setBackground(LookAndFeel.COLOR_SOLID_JWINDOW);
-			getRootPane().setBorder(new LineBorder(LookAndFeel.COLOR_SOLID_PANELS_BORDER, 3));
+			setBackground(ConstantColor.COLOR_SOLID_JWINDOW);
+			getRootPane().setBorder(new LineBorder(ConstantColor.COLOR_SOLID_PANELS_BORDER, 3));
 			add(panel);
 			setLocation(10, 100);
 

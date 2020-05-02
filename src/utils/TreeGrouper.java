@@ -1,3 +1,4 @@
+package utils;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.
@@ -8,6 +9,9 @@
  */
 import java.util.ArrayList;
 import java.util.Collections;
+
+import model.Tree;
+import views.ForestFire;
 
 public class TreeGrouper {
 	private static ArrayList<Tree> tempTreesA = new ArrayList<Tree>();

@@ -1,3 +1,4 @@
+package controller;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.
@@ -57,11 +58,18 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
-import com.jd.swing.custom.component.button.ButtonType;
-import com.jd.swing.custom.component.button.StandardButton;
-import com.jd.swing.util.Theme;
+import component.AboutPanel;
+import component.CustomSlider;
+import component.StandardButton;
+import constant.ButtonType;
+import constant.ConstantColor;
+import constant.ConstantMapResolution;
+import constant.ConstantPercentageTrees;
+import constant.Theme;
+import utils.NumberFilter;
+import views.ForestFire;
 
-public class Main {
+public class MainController {
 	// GUI Frame
 	private static JFrame frame = new JFrame();
 	
@@ -90,7 +98,7 @@ public class Main {
 		ForestFire forestFire = new ForestFire();
 		
 		// Setup frame
-		frame.setTitle("Forest Fire by Peter \"Felix\" Nguyen");
+		frame.setTitle("ATTENTION AU FEU PROJET OOP");
 		frame.setSize(ForestFire.mapWidth, ForestFire.mapHeight);
 		frame.setMinimumSize(new Dimension(ForestFire.mapWidth, ForestFire.mapHeight));
 		frame.setLocationRelativeTo(null);
@@ -238,7 +246,7 @@ public class Main {
 		JPanel clickSliderRow1 = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
 		clickSliderRow1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
 		clickSliderRow1.add(new JLabel("Click Radius"));
-		clickSliderRow1.setBackground(LookAndFeel.COLOR_SOLID_PANELS);
+		clickSliderRow1.setBackground(ConstantColor.COLOR_SOLID_PANELS);
 		JPanel clickSliderRow2 = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
 		
 		clickSliderRow2.add(clickSlider);
@@ -279,7 +287,7 @@ public class Main {
 		JPanel burnSliderRow1 = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
 		burnSliderRow1.setMaximumSize(new Dimension(Integer.MAX_VALUE, 20));
 		burnSliderRow1.add(new JLabel("Burn Radius"));
-		burnSliderRow1.setBackground(LookAndFeel.COLOR_SOLID_PANELS);
+		burnSliderRow1.setBackground(ConstantColor.COLOR_SOLID_PANELS);
 		JPanel burnSliderRow2 = new JPanel(new FlowLayout(FlowLayout.CENTER)); 
 		
 		burnSliderRow2.add(burnSlider);
@@ -341,9 +349,9 @@ public class Main {
 
 		JPanel innerPanelNewMap = new JPanel();
 		innerPanelNewMap.setLayout(new BoxLayout(innerPanelNewMap, BoxLayout.Y_AXIS));
-		innerPanelNewMap.setBackground(LookAndFeel.COLOR_SOLID_PANELS);
+		innerPanelNewMap.setBackground(ConstantColor.COLOR_SOLID_PANELS);
 		Font font = new Font(innerPanelNewMap.getFont().getFontName(), Font.BOLD, 14);
-		CompoundBorder compoundBorder = new CompoundBorder(BorderFactory.createLineBorder(LookAndFeel.COLOR_SOLID_PANELS_BORDER, 4), BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Configure New Map", TitledBorder.CENTER, TitledBorder.CENTER, font));
+		CompoundBorder compoundBorder = new CompoundBorder(BorderFactory.createLineBorder(ConstantColor.COLOR_SOLID_PANELS_BORDER, 4), BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Configure New Map", TitledBorder.CENTER, TitledBorder.CENTER, font));
 		innerPanelNewMap.setBorder(compoundBorder);
 		
 		JPanel innerPanelNewMapRow1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -363,14 +371,14 @@ public class Main {
 		jcbMapSize.setMaximumRowCount(15);
 		jcbMapSize.addItem("Custom size");
 		jcbMapSize.addItem("Fit to screen");
-		jcbMapSize.addItem(ForestFire.RESOLUTION_WVGA);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_WSVGA);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_720P);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_SXGA);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_HDPLUS);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_UXGA);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_FHD);
-		jcbMapSize.addItem(ForestFire.RESOLUTION_WQXGA);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_WVGA);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_WSVGA);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_720P);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_SXGA);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_HDPLUS);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_UXGA);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_FHD);
+		jcbMapSize.addItem(ConstantMapResolution.RESOLUTION_WQXGA);
 		jcbMapSize.addItem("3000x3000");
 		
 		((JLabel) jcbMapSize.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
@@ -626,7 +634,7 @@ public class Main {
 		innerPanelNewMap.add(Box.createVerticalGlue());
 		
 		JPanel jpNewMap = new JPanel();
-		jpNewMap.setBackground(LookAndFeel.COLOR_TRANSLUCENT_BLACK);
+		jpNewMap.setBackground(ConstantColor.COLOR_TRANSLUCENT_BLACK);
 		jpNewMap.setLayout(new GridBagLayout());
 		jpNewMap.add(innerPanelNewMap, new GridBagConstraints());
 
@@ -669,15 +677,15 @@ public class Main {
 		
 		JPanel innerPanelChooseSize = new JPanel();
 		innerPanelChooseSize.setLayout(new BoxLayout(innerPanelChooseSize, BoxLayout.Y_AXIS));
-		innerPanelChooseSize.setBackground(LookAndFeel.COLOR_SOLID_PANELS);
+		innerPanelChooseSize.setBackground(ConstantColor.COLOR_SOLID_PANELS);
 		Font font2 = new Font(innerPanelNewMap.getFont().getFontName(), Font.BOLD, 14);
-		CompoundBorder compoundBorder2 = new CompoundBorder(BorderFactory.createLineBorder(LookAndFeel.COLOR_SOLID_PANELS_BORDER, 4), BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Configure New Map", TitledBorder.CENTER, TitledBorder.CENTER, font2));
+		CompoundBorder compoundBorder2 = new CompoundBorder(BorderFactory.createLineBorder(ConstantColor.COLOR_SOLID_PANELS_BORDER, 4), BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Configure New Map", TitledBorder.CENTER, TitledBorder.CENTER, font2));
 		innerPanelChooseSize.setBorder(compoundBorder2);
 		
 		innerPanelChooseSize.add(new JLabel("Choose Map Size"));
 		
 		JPanel jpChooseSize = new JPanel();
-		jpChooseSize.setBackground(LookAndFeel.COLOR_TRANSLUCENT_BLACK);
+		jpChooseSize.setBackground(ConstantColor.COLOR_TRANSLUCENT_BLACK);
 		jpChooseSize.setLayout(new GridBagLayout());
 		jpChooseSize.add(innerPanelChooseSize, new GridBagConstraints());
 
@@ -708,11 +716,11 @@ public class Main {
 		jdAbout.setModal(true);
 		
 		AboutPanel aboutPanel = new AboutPanel();
-		aboutPanel.setBorder(BorderFactory.createLineBorder(LookAndFeel.COLOR_SOLID_PANELS_BORDER, 4));
-		aboutPanel.setBackground(LookAndFeel.COLOR_SOLID_PANELS);
+		aboutPanel.setBorder(BorderFactory.createLineBorder(ConstantColor.COLOR_SOLID_PANELS_BORDER, 4));
+		aboutPanel.setBackground(ConstantColor.COLOR_SOLID_PANELS);
 		
 		JPanel jpAbout = new JPanel(); 
-		jpAbout.setBackground(LookAndFeel.COLOR_TRANSLUCENT_BLACK);
+		jpAbout.setBackground(ConstantColor.COLOR_TRANSLUCENT_BLACK);
 		jpAbout.setLayout(new GridBagLayout());
 		jpAbout.add(aboutPanel, new GridBagConstraints());
 
@@ -739,28 +747,28 @@ public class Main {
 				case "Fit to Screen":
 					forestFire.setMapSize(ForestFire.screenWidth, ForestFire.screenHeight);
 					break;
-				case ForestFire.RESOLUTION_WVGA:
+				case ConstantMapResolution.RESOLUTION_WVGA:
 					forestFire.setMapSize(800, 480);
 					break;
-				case ForestFire.RESOLUTION_WSVGA:
+				case ConstantMapResolution.RESOLUTION_WSVGA:
 					forestFire.setMapSize(1024, 600);
 					break;
-				case ForestFire.RESOLUTION_720P:
+				case ConstantMapResolution.RESOLUTION_720P:
 					forestFire.setMapSize(1280, 720);
 					break;
-				case ForestFire.RESOLUTION_SXGA:
+				case ConstantMapResolution.RESOLUTION_SXGA:
 					forestFire.setMapSize(1280, 1024);
 					break;
-				case ForestFire.RESOLUTION_HDPLUS:
+				case ConstantMapResolution.RESOLUTION_HDPLUS:
 					forestFire.setMapSize(1600, 900);
 					break;
-				case ForestFire.RESOLUTION_UXGA:
+				case ConstantMapResolution.RESOLUTION_UXGA:
 					forestFire.setMapSize(1600, 1200);
 					break;
-				case ForestFire.RESOLUTION_FHD:
+				case ConstantMapResolution.RESOLUTION_FHD:
 					forestFire.setMapSize(1920, 1080);
 					break;
-				case ForestFire.RESOLUTION_WQXGA:
+				case ConstantMapResolution.RESOLUTION_WQXGA:
 					forestFire.setMapSize(2560, 1600);
 					break;
 				case "3000x3000":
@@ -983,50 +991,5 @@ public class Main {
 		forestFire.hideGameStats(false);
 	}
 	
-    /*
-     * Regular Expression tool:
-     * 
-     * http://utilitymill.com/utility/Regex_For_Range
-     */
-    static class NumberFilter extends DocumentFilter {
-        private Pattern pattern;
 
-        public NumberFilter() {
-            pattern = Pattern.compile("([0-9]{1,4}|10000)");
-        }
-
-        // manual invocation
-        @Override
-        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
-            String newStr = fb.getDocument().getText(0, fb.getDocument().getLength()) + string;
-            Matcher m = pattern.matcher(newStr);
-
-            if (m.matches()) {
-                super.insertString(fb, offset, string, attr);
-            } else {
-                Toolkit.getDefaultToolkit().beep();
-            }
-        }
-
-        // automatic invocation
-        @Override
-        public void remove(DocumentFilter.FilterBypass fb, int offset, int length) throws BadLocationException {
-            try {
-            	
-            } catch (NumberFormatException ex) {
-            	System.out.println("EXCEPTION FOUND");
-            }
-        	super.remove(fb, offset, length);
-        }
-
-        // automatic invocation
-        @Override
-        public void replace(FilterBypass fb, int offset, int length, String string, AttributeSet attr) throws BadLocationException {
-            if (length > 0) {
-                fb.remove(offset, length);
-            }
-
-            insertString(fb, offset, string, attr);
-        }
-    }
 }

@@ -1,3 +1,4 @@
+package component;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.

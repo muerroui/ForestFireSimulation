@@ -1,3 +1,4 @@
+package utils;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.
@@ -7,6 +8,8 @@
  * Trees sorted in ascending order should have trees in bottom-right corner indexed last in a list.
  */
 import java.util.Comparator;
+
+import model.Tree;
 
 public class TreeComparator implements Comparator<Tree> {
 

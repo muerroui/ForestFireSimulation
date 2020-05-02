@@ -1,3 +1,4 @@
+package utils;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.
@@ -5,6 +6,8 @@
  * TreeYComparator is used to sort two Trees based on the y coordinate.
  */
 import java.util.Comparator;
+
+import model.Tree;
 
 public class TreeYComparator implements Comparator<Tree> {
 

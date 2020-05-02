@@ -4,7 +4,7 @@
  * Permission to use, copy, modify, and distribute SwingJD software is freely
  * granted, provided that this notice is preserved.
  */
-package com.jd.swing.util;
+package utils;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -13,6 +13,8 @@ import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+
+import constant.Theme;
 
 /**
  * 

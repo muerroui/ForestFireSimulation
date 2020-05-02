@@ -3,7 +3,7 @@
  * Permission to use, copy, modify, and distribute SwingJD software is freely
  * granted, provided that this notice is preserved.
  */
-package com.jd.swing.custom.component.button;
+package component;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -20,8 +20,9 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 
-import com.jd.swing.util.ColorUtils;
-import com.jd.swing.util.Theme;
+import constant.ButtonType;
+import constant.Theme;
+import utils.ColorUtils;
 
 /**
  * 

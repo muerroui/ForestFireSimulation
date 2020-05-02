@@ -1,3 +1,4 @@
+package model;
 /**
  * 
  * Forest Fire Simulation with 2D Graphics.
@@ -7,6 +8,8 @@
 import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
+
+import views.ForestFire;
 
 public class Tree {
 	// Characteristics
@@ -66,31 +69,6 @@ public class Tree {
 		this.y = y;
 	}
 
-	/**
-	 * This method is deprecated but may have use in the future
-	 */
-	public Color getLeafColor() {
-		if (state == GREEN) {
-			return new Color(30, 150, 70);
-		} else if (state == RED) {
-			return new Color(30, 150, 70);
-		} else {
-			return new Color(0,0,0,0);
-		}
-	}
-
-	/**
-	 * This method is deprecated but may have use in the future
-	 */
-	public Color getTrunkColor() {
-		if (state == GREEN) {
-			return new Color(160, 110, 60);
-		} else if (state == RED) {
-			return new Color(160, 110, 60);
-		} else {
-			return new Color(70,70,70);
-		}
-	}
 
 	public String getState() {
 		return state;
